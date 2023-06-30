@@ -6,7 +6,7 @@ import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
 
 
 
-import { pieChartData } from '../data/dummy';
+import { ecomPieChartData1, ecomPieChartData2, ecomPieChartData3, pieChartData } from '../data/dummy';
 import { ChartsHeader, Pie as PieChart } from '../components';
 
 
@@ -183,7 +183,35 @@ const Ecommerce = () => {
             </div>
             <div className="md:w-full overflow-auto md:flex ">
               <div className=''>
-                <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                {
+                  sectorBtns === '0' &&
+                  <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
+                {
+                  sectorBtns === '1' &&
+                  <Pie data={ecomPieChartData1} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  sectorBtns === '2' &&
+                  <Pie data={ecomPieChartData2} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  sectorBtns === '3' &&
+                  <Pie data={ecomPieChartData3} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
+
+                {
+                  marketBtns === '0' &&
+                  <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
+                {
+                  marketBtns === '1' &&
+                  <Pie data={ecomPieChartData1} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  marketBtns === '2' &&
+                  <Pie data={ecomPieChartData2} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  marketBtns === '3' &&
+                  <Pie data={ecomPieChartData3} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
               </div>
               <div className=''>
                 <table class="table">
