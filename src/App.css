@@ -2,7 +2,7 @@
 
 .sidebar {
   box-shadow: rgb(113 122 131 / 11%) 0px 7px 30px 0px;
-  background-color: rgb(159, 159, 212);
+  /* background-color: rgb(159, 159, 212); */
 }
 .nav-item,
 .navbar {

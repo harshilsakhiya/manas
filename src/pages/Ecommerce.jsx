@@ -182,38 +182,7 @@ const Ecommerce = () => {
               </p>
             </div>
             <div className="md:w-full overflow-auto md:flex ">
-              <div className=''>
-                {
-                  sectorBtns === '0' &&
-                  <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
-                {
-                  sectorBtns === '1' &&
-                  <Pie data={ecomPieChartData1} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  sectorBtns === '2' &&
-                  <Pie data={ecomPieChartData2} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  sectorBtns === '3' &&
-                  <Pie data={ecomPieChartData3} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
-
-                {
-                  marketBtns === '0' &&
-                  <Pie data={ecomPieChartData} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
-                {
-                  marketBtns === '1' &&
-                  <Pie data={ecomPieChartData1} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  marketBtns === '2' &&
-                  <Pie data={ecomPieChartData2} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  marketBtns === '3' &&
-                  <Pie data={ecomPieChartData3} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
-              </div>
-              <div className=''>
+            <div className='w-[50%]'>
                 <table class="table">
                   <thead className='thead-dark' >
                     <tr className='thadeBg' style={{ background: "red" }}>
@@ -282,6 +251,37 @@ const Ecommerce = () => {
                   </tbody>
                 </table>
               </div>
+              <div className=''>
+                {
+                  sectorBtns === '0' &&
+                  <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
+                {
+                  sectorBtns === '1' &&
+                  <Pie data={ecomPieChartData1} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  sectorBtns === '2' &&
+                  <Pie data={ecomPieChartData2} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  sectorBtns === '3' &&
+                  <Pie data={ecomPieChartData3} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
+                {
+                  marketBtns === '0' &&
+                  <Pie data={ecomPieChartData} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
+                {
+                  marketBtns === '1' &&
+                  <Pie data={ecomPieChartData1} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  marketBtns === '2' &&
+                  <Pie data={ecomPieChartData2} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                } {
+                  marketBtns === '3' &&
+                  <Pie data={ecomPieChartData3} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                }
+              </div>
+             
             </div>
           </div>
         </div>
