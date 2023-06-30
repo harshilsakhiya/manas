@@ -200,17 +200,17 @@ const Ecommerce = () => {
 
                 {
                   marketBtns === '0' &&
-                  <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                  <Pie data={ecomPieChartData} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
                 }
                 {
                   marketBtns === '1' &&
-                  <Pie data={ecomPieChartData1} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                  <Pie data={ecomPieChartData1} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
                 } {
                   marketBtns === '2' &&
-                  <Pie data={ecomPieChartData2} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                  <Pie data={ecomPieChartData2} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
                 } {
                   marketBtns === '3' &&
-                  <Pie data={ecomPieChartData3} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
+                  <Pie data={ecomPieChartData3} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
                 }
               </div>
               <div className=''>
