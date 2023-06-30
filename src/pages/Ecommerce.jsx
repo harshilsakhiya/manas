@@ -155,11 +155,11 @@ const Ecommerce = () => {
                 }
               </p>
             </div>
-            <div className="md:w-full overflow-auto flex">
-              <div className='w-[50%]'>
+            <div className="md:w-full overflow-auto md:flex ">
+              <div className='md:w-[50%]'>
                 <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
               </div>
-              <div className='w-[50%]'>
+              <div className='md:w-[50%]'>
                 <table class="table">
                   <thead className='thead-dark'>
                     <tr className=''>
