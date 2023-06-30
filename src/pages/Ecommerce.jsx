@@ -6,7 +6,7 @@ import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
 
 
 
-import { ecomPieChartData1, ecomPieChartData2, ecomPieChartData3, pieChartData } from '../data/dummy';
+import { pieChartData } from '../data/dummy';
 import { ChartsHeader, Pie as PieChart } from '../components';
 
 
