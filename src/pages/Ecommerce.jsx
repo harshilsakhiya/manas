@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsCurrencyDollar, BsCurrencyExchange } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { IoIosMore } from 'react-icons/io';
@@ -15,6 +15,13 @@ import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropd
 import { useStateContext } from '../contexts/ContextProvider';
 import product9 from '../data/product9.jpg';
 import Marquee from "react-fast-marquee";
+import Financial from './Charts/Financial';
+import { IgrFinancialChart } from "igniteui-react-charts"
+import { IgrFinancialChartModule } from "igniteui-react-charts"
+import StocksHistory from "../components/StockHistory"
+
+IgrFinancialChartModule.register()
+
 
 const DropDown = ({ currentMode }) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -28,6 +35,15 @@ const Ecommerce = () => {
   const [allocationBtns, setAllocationBtns] = useState('0');
   const [sectorBtns, setSectorBtns] = useState('0');
   const [marketBtns, setMarketBtns] = useState('0');
+  const [data, setData] = useState([])
+
+
+  useEffect(() => {
+    StocksHistory.getMultipleStocks().then(stocks => {
+      setData(stocks)
+    })
+
+  }, [])
 
   return (
     <React.Fragment>
@@ -108,13 +124,23 @@ const Ecommerce = () => {
 
         <div className='my-3 flex items-center justify-center'>
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-11/12">
-            <div className="flex justify-between items-center gap-2 mb-10">
-              <p className="text-xl font-semibold">Portfolio Tracker</p>
-              <DropDown currentMode={currentMode} />
+            <div className="container sample">
+              <div className="container" style={{ height: "500px" }}>
+
+                <IgrFinancialChart
+                  width="100%"
+                  height="100%"
+                  chartType="Line"
+                  thickness={2}
+                  chartTitle="Google vs Microsoft Changes"
+                  subtitle="Between 2013 and 2017"
+                  yAxisMode="PercentChange"
+                  yAxisTitle="Percent Changed"
+                  dataSource={data}
+                />
+              </div>
             </div>
-            <div className="md:w-full overflow-auto">
-              <LineChart />
-            </div>
+
           </div>
         </div>
 
@@ -156,13 +182,13 @@ const Ecommerce = () => {
               </p>
             </div>
             <div className="md:w-full overflow-auto md:flex ">
-              <div className='md:w-[50%]'>
+              <div className=''>
                 <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
               </div>
-              <div className='md:w-[50%]'>
+              <div className=''>
                 <table class="table">
-                  <thead className='thead-dark'>
-                    <tr className=''>
+                  <thead className='thead-dark' >
+                    <tr className='thadeBg' style={{ background: "red" }}>
                       <th scope="col">SR NO.</th>
                       <th scope="col">NSE</th>
                       <th scope="col">LSN</th>
@@ -224,7 +250,7 @@ const Ecommerce = () => {
                       <td>Larry</td>
                       <td>the Bird</td>
                       <td>@twitter</td>
-                    </tr> 
+                    </tr>
                   </tbody>
                 </table>
               </div>

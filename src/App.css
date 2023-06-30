@@ -47,7 +47,7 @@
   border: none;
 }
 
-.logo{
-  width: 90%;
-  margin-right: 10px;
+
+.thadeBg th{
+  background-color: rgb(159, 159, 212) !important;
 }
