@@ -11,7 +11,7 @@ import { ChartsHeader, Pie as PieChart } from '../components';
 
 
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
-import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
+import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData, ecomPieChartData1, ecomPieChartData2, ecomPieChartData3 } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import product9 from '../data/product9.jpg';
 import Marquee from "react-fast-marquee";
@@ -181,8 +181,8 @@ const Ecommerce = () => {
                 }
               </p>
             </div>
-            <div className="md:w-full overflow-auto md:flex ">
-            <div className='w-[50%]'>
+            <div className="md:w-full overflow-auto md:flex w-100 ">
+              <div className='md:w-1/2'>
                 <table class="table">
                   <thead className='thead-dark' >
                     <tr className='thadeBg' style={{ background: "red" }}>
@@ -251,37 +251,10 @@ const Ecommerce = () => {
                   </tbody>
                 </table>
               </div>
-              <div className=''>
-                {
-                  sectorBtns === '0' &&
-                  <Pie data={ecomPieChartData} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
-                {
-                  sectorBtns === '1' &&
-                  <Pie data={ecomPieChartData1} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  sectorBtns === '2' &&
-                  <Pie data={ecomPieChartData2} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  sectorBtns === '3' &&
-                  <Pie data={ecomPieChartData3} id={allocationBtns == 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
-                {
-                  marketBtns === '0' &&
-                  <Pie data={ecomPieChartData} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
-                {
-                  marketBtns === '1' &&
-                  <Pie data={ecomPieChartData1} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  marketBtns === '2' &&
-                  <Pie data={ecomPieChartData2} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                } {
-                  marketBtns === '3' &&
-                  <Pie data={ecomPieChartData3} id={allocationBtns !== 0 ? 'Sector_' + sectorBtns : 'Market_' + marketBtns} legendVisiblity={true} />
-                }
+              <div className='md:w-1/2'>
+                <Pie data={ecomPieChartData} legendVisiblity={true} />
               </div>
-             
+
             </div>
           </div>
         </div>
