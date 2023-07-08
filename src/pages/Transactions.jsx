@@ -49,6 +49,11 @@ const Transactions = () => {
 
   }
 
+  const submitData = async () => {
+    const res = await uploadData(fileData);
+
+  }
+
   const onFileSelected = (args) => {
     // args.filesData.splice(5);
     const file = args.event.target.files[0];
@@ -71,8 +76,7 @@ const Transactions = () => {
             });
             return obj;
           });
-
-          const res = uploadData(transformedData);
+          setFileData(transformedData)
 
         });
       };
@@ -261,7 +265,7 @@ const Transactions = () => {
                     <div className="btn-group my-4 d-flex justify-center gap-3">
                       {activeTab > 1 ? <ButtonComponent cssClass='e-info' className="!capitalize" onClick={() => toggleTab(activeTab - 1)}>Previous</ButtonComponent> : null}
                       {activeTab !== 4 ? <ButtonComponent cssClass='e-info' className="!capitalize" onClick={() => toggleTab(activeTab + 1)}>Next</ButtonComponent> : null}
-                      <ButtonComponent cssClass='e-success' className="!capitalize" >Submit</ButtonComponent>
+                      <ButtonComponent cssClass='e-success' className="!capitalize" onClick={submitData} >Submit</ButtonComponent>
                     </div>
                   </Tab.Content>
                 </Tab.Container>
