@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
@@ -20,6 +20,7 @@ import '../App.css';
 
 import { customersData, customersGrid, existingPortFolio, newPortFolio } from "../data/dummy";
 import { Header } from "../components";
+import { UploaderComponent } from "@syncfusion/ej2-react-inputs";
 
 const Transactions = () => {
   // const selectionsettings = { persistSelection: true };
@@ -30,6 +31,40 @@ const Transactions = () => {
   const [dropdown1Value, setDropdown1Value] = useState("");
   const [textboxValue, setTextboxValue] = useState("");
   const [dropdown2Value, setDropdown2Value] = useState("");
+
+  // useEffect(() => {
+  //   updateSampleSection();
+  // }, []);
+  let uploadObj = useRef(null);
+  let allowedExtensions;
+  let dropContainerRef;
+  let dropContainerEle;
+  dropContainerEle = null;
+  dropContainerRef = element => {
+    dropContainerEle = element;
+  };
+
+  allowedExtensions = '.csv, .xls, .xlsx';
+
+  const onFileSelected = (args) => {
+    args.filesData.splice(5);
+    let filesData = uploadObj.current.getFilesData();
+    console.log({ filesData })
+    let allFiles = filesData.concat(args.filesData);
+    if (allFiles.length > 5) {
+      for (let i = 0; i < allFiles.length; i++) {
+        if (allFiles.length > 5) {
+          allFiles.shift();
+        }
+      }
+      args.filesData = allFiles;
+      args.modifiedFilesData = args.filesData;
+    }
+    args.isModified = true;
+    console.log({ args })
+  };
+
+
 
   return (
     <div className="container">
@@ -92,7 +127,7 @@ const Transactions = () => {
                       <Nav.Link
                         eventKey="portfolio"
                         className=" nav-link-small font-weight-bold border"
-                        style={{ borderRadius: "15px" }}
+                        style={{ borderRadius: "8px" }}
                       >
                         Upload Portfolio Data
                       </Nav.Link>
@@ -101,7 +136,7 @@ const Transactions = () => {
                       <Nav.Link
                         eventKey="cashflow"
                         className=" nav-link-small font-weight-bold border "
-                        style={{ borderRadius: "15px" }}
+                        style={{ borderRadius: "8px" }}
                       >
                         Upload Cashflow Data
                       </Nav.Link>
@@ -110,7 +145,7 @@ const Transactions = () => {
                       <Nav.Link
                         eventKey="market"
                         className="nav-link-small font-weight-bold border  "
-                        style={{ borderRadius: "15px" }}
+                        style={{ borderRadius: "8px" }}
                       >
                         Upload Market Data
                       </Nav.Link>
@@ -119,7 +154,7 @@ const Transactions = () => {
                       <Nav.Link
                         eventKey="corporate"
                         className="nav-link-small font-weight-bold border "
-                        style={{ borderRadius: "15px" }}
+                        style={{ borderRadius: "8px" }}
                       >
                         Upload Corporate Action Data
                       </Nav.Link>
@@ -128,34 +163,34 @@ const Transactions = () => {
 
                   <Tab.Content>
                     <Tab.Pane eventKey="portfolio" className="">
-                      <h4 className="large my-4 "> Select Portfolio File</h4>
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          className="custom-file-input border "
-                          id="customFile"
-                        />
+                      {/* <h4 className="large my-4 "> Select Portfolio File</h4> */}
+                      <div className='control-pane' ref={dropContainerRef}>
+                        <div className='control-section col-lg-12 uploadpreview'>
+                          <div className='upload_wrapper'>
+                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                          </div>
+                        </div>
                       </div>
 
                       <div className="btn-group my-4">
                         <button
                           type="button"
                           className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Add Stock
                         </button>
                         <button
                           type="button "
                           className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           View Portfolio
                         </button>
                         <button
                           type="button"
                           className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Template.xls
                         </button>
@@ -176,21 +211,21 @@ const Transactions = () => {
                         <button
                           type="button"
                           className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Add Stock
                         </button>
                         <button
                           type="button "
                           className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           View Cashflow
                         </button>
                         <button
                           type="button"
                           className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Template.xls
                         </button>
@@ -211,21 +246,21 @@ const Transactions = () => {
                         <button
                           type="button"
                           className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Add Closing File
                         </button>
                         <button
                           type="button "
                           className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           View Closing Price
                         </button>
                         <button
                           type="button"
                           className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Template.xls
                         </button>
@@ -245,21 +280,21 @@ const Transactions = () => {
                         <button
                           type="button"
                           className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Add Corporate Action
                         </button>
                         <button
                           type="button "
                           className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           View Corporate Action
                         </button>
                         <button
                           type="button"
                           className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "15px" }}
+                          style={{ borderRadius: "8px" }}
                         >
                           Template.xls
                         </button>
