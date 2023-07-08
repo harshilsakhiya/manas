@@ -22,6 +22,7 @@ import { customersData, customersGrid, existingPortFolio, newPortFolio, portFoli
 import { Header } from "../components";
 import { UploaderComponent } from "@syncfusion/ej2-react-inputs";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
+import * as XLSX from 'xlsx';
 
 const Transactions = () => {
   // const selectionsettings = { persistSelection: true };
@@ -29,45 +30,53 @@ const Transactions = () => {
   // const editing = { allowDeleting: true, allowEditing: true };
   const fields = { text: "name", value: "id" }
   const [screen, setScreen] = useState("initial");
-  const [dropdown1Value, setDropdown1Value] = useState("");
-  const [textboxValue, setTextboxValue] = useState("");
-  const [dropdown2Value, setDropdown2Value] = useState("");
   const [activeKey, setActiveKey] = useState("portfolio")
-  const [activeIndex, setActiveIndex] = useState(0)
   const [activeTab, setActiveTab] = useState(1);
+  const [fileData, setFileData] = useState([])
 
-  console.log(activeTab)
-
-  // useEffect(() => {
-  //   updateSampleSection();
-  // }, []);
-  let uploadObj = useRef(null);
-  let allowedExtensions;
-  let dropContainerRef;
-  let dropContainerEle;
-  dropContainerEle = null;
-  dropContainerRef = element => {
-    dropContainerEle = element;
-  };
-
-  allowedExtensions = '.csv, .xls, .xlsx';
+  const allowedExtensions = '.csv, .xls, .xlsx';
 
   const onFileSelected = (args) => {
-    args.filesData.splice(5);
-    let filesData = uploadObj.current.getFilesData();
-    console.log({ filesData })
-    let allFiles = filesData.concat(args.filesData);
-    if (allFiles.length > 5) {
-      for (let i = 0; i < allFiles.length; i++) {
-        if (allFiles.length > 5) {
-          allFiles.shift();
-        }
-      }
-      args.filesData = allFiles;
-      args.modifiedFilesData = args.filesData;
+    // args.filesData.splice(5);
+    const file = args.event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const fileData = e.target.result;
+        const workbook = XLSX.read(fileData, { type: 'binary' });
+
+        workbook.SheetNames.forEach((sheetName) => {
+          const worksheet = workbook.Sheets[sheetName];
+          const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+          const transformedData = data.slice(1).map((row) => {
+            const obj = {};
+            data[0].forEach((key, index) => {
+              obj[key] = row[index] !== undefined ? row[index] : '';
+            });
+            return obj;
+          });
+          setFileData(transformedData)
+
+        });
+      };
+
+      reader.readAsBinaryString(file);
     }
+
+    // let allFiles = filesData.concat(args.filesData);
+    // if (allFiles.length > 5) {
+    //   for (let i = 0; i < allFiles.length; i++) {
+    //     if (allFiles.length > 5) {
+    //       allFiles.shift();
+    //     }
+    //   }
+    //   args.filesData = allFiles;
+    //   args.modifiedFilesData = args.filesData;
+    // }
     args.isModified = true;
-    console.log({ args })
   };
 
   const toggleTab = (tab) => {
@@ -75,7 +84,6 @@ const Transactions = () => {
       setActiveTab(tab);
     }
   };
-
 
   return (
     <div className="container">
@@ -86,7 +94,7 @@ const Transactions = () => {
           <div className="col-2"></div>
 
           <div
-            className=" bg-light col-8  border border-dark rounded text-center p-5 "
+            className=" bg-light col-8  border border-dark rounded-2xl text-center p-5 "
             style={{ boxShadow: "0 5px 5px  #737373" }}
           >
             <form
@@ -121,57 +129,58 @@ const Transactions = () => {
       {screen === "next" && (
         <div className="d-flex justify-center ">
           <div
-            className="Container p-5 bg-light border border-dark rounded text-center mt-3 mb-5"
+            className="Container p-5 bg-light border border-dark rounded-2xl text-center mt-3 mb-5 w-9/12"
             style={{ boxShadow: "0 5px 5px  #737373" }}
           >
-            <div className="row d-flex justify-center ">
-              <div className="mt-4">
+            <div className="row d-flex justify-center w-full">
+              <div className="mt-4 w-full">
                 <Tab.Container defaultActiveKey={activeKey}>
-                  <Nav variant="pills" className="d-flex justify-content-between">
-                    <Nav.Item className="mr-2">
+                  <Nav variant="pills" className="d-flex justify-center">
+                    {activeTab === 1 && <Nav.Item className="mr-2">
                       <Nav.Link
-                        active={activeTab === 1}
-                        onClick={() => toggleTab(1)}
+                        active={true}
                         eventKey="portfolio"
-                        className=" nav-link-small font-weight-bold border"
+                        className="font-weight-bold border"
                         style={{ borderRadius: "8px" }}
                       >
                         Upload Portfolio Data
                       </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="mr-2">
+
+                    </Nav.Item>}
+
+                    {activeTab === 2 && <Nav.Item className="mr-2">
                       <Nav.Link
-                        active={activeTab === 2}
-                        onClick={() => toggleTab(2)}
+                        active={true}
                         eventKey="cashflow"
-                        className=" nav-link-small font-weight-bold border "
+                        className=" font-weight-bold border "
                         style={{ borderRadius: "8px" }}
                       >
                         Upload Cashflow Data
                       </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="mr-2">
+                    </Nav.Item>}
+
+                    {activeTab === 3 && <Nav.Item className="mr-2">
                       <Nav.Link
-                        active={activeTab === 3}
-                        onClick={() => toggleTab(3)}
+                        active={true}
                         eventKey="market"
-                        className="nav-link-small font-weight-bold border  "
+                        className="font-weight-bold border  "
                         style={{ borderRadius: "8px" }}
                       >
                         Upload Market Data
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item className="mr-2">
+                    }
+                    {activeTab === 4 && <Nav.Item className="mr-2">
                       <Nav.Link
-                        active={activeTab === 4}
-                        onClick={() => toggleTab(4)}
+                        active={true}
                         eventKey="corporate"
-                        className="nav-link-small font-weight-bold border "
+                        className="font-weight-bold border "
                         style={{ borderRadius: "8px" }}
                       >
                         Upload Corporate Action Data
                       </Nav.Link>
-                    </Nav.Item>
+                    </Nav.Item>}
+
                   </Nav>
 
                   <Tab.Content activeTab={activeTab}>
@@ -182,10 +191,10 @@ const Transactions = () => {
                           <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
                         </a>
                       </div>
-                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                      <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
@@ -196,10 +205,10 @@ const Transactions = () => {
                           <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
                         </a>
                       </div>
-                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                      <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
@@ -211,10 +220,10 @@ const Transactions = () => {
                         </a>
                       </div>
 
-                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                      <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
@@ -226,10 +235,10 @@ const Transactions = () => {
                         </a>
                       </div>
 
-                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                      <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
