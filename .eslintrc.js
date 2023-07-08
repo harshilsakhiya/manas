@@ -13,13 +13,13 @@ module.exports = {
   },
   plugins: ["react"],
   rules: {
+    "prettier/prettier": ["", { singleQuote: false }],
     "react/function-component-definition": 0,
     "import/extensions": 0,
     "react/prop-types": 0,
     "linebreak-style": 0,
     "react/state-in-constructor": 0,
     "import/prefer-default-export": 0,
-    "no-unused-vars": "off",
     "max-len": [2, 550],
     "no-multiple-empty-lines": [
       "error",
@@ -50,6 +50,5 @@ module.exports = {
         aspects: ["noHref", "invalidHref", "preferButton"],
       },
     ],
-    quotes: [{ avoidEscape: true }],
   },
 };
