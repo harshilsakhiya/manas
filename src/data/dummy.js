@@ -418,7 +418,6 @@ export const LinePrimaryYAxis = {
 };
 
 export const customersGrid = [
-  { type: "checkbox", width: "50" },
   {
     headerText: "Security Name",
     width: "150",
@@ -461,13 +460,7 @@ export const customersGrid = [
     textAlign: "Center",
   },
 
-  {
-    field: "S.no",
-    headerText: "S.No",
-    width: "120",
-    textAlign: "Center",
-    isPrimaryKey: true,
-  },
+ 
 ];
 
 export const employeesGrid = [
