@@ -34,6 +34,9 @@ const Transactions = () => {
   const [dropdown2Value, setDropdown2Value] = useState("");
   const [activeKey, setActiveKey] = useState("portfolio")
   const [activeIndex, setActiveIndex] = useState(0)
+  const [activeTab, setActiveTab] = useState(1);
+
+  console.log(activeTab)
 
   // useEffect(() => {
   //   updateSampleSection();
@@ -67,6 +70,11 @@ const Transactions = () => {
     console.log({ args })
   };
 
+  const toggleTab = (tab) => {
+    if (activeTab !== tab) {
+      setActiveTab(tab);
+    }
+  };
 
 
   return (
@@ -122,6 +130,8 @@ const Transactions = () => {
                   <Nav variant="pills" className="d-flex justify-content-between">
                     <Nav.Item className="mr-2">
                       <Nav.Link
+                        active={activeTab === 1}
+                        onClick={() => toggleTab(1)}
                         eventKey="portfolio"
                         className=" nav-link-small font-weight-bold border"
                         style={{ borderRadius: "8px" }}
@@ -131,6 +141,8 @@ const Transactions = () => {
                     </Nav.Item>
                     <Nav.Item className="mr-2">
                       <Nav.Link
+                        active={activeTab === 2}
+                        onClick={() => toggleTab(2)}
                         eventKey="cashflow"
                         className=" nav-link-small font-weight-bold border "
                         style={{ borderRadius: "8px" }}
@@ -140,6 +152,8 @@ const Transactions = () => {
                     </Nav.Item>
                     <Nav.Item className="mr-2">
                       <Nav.Link
+                        active={activeTab === 3}
+                        onClick={() => toggleTab(3)}
                         eventKey="market"
                         className="nav-link-small font-weight-bold border  "
                         style={{ borderRadius: "8px" }}
@@ -149,6 +163,8 @@ const Transactions = () => {
                     </Nav.Item>
                     <Nav.Item className="mr-2">
                       <Nav.Link
+                        active={activeTab === 4}
+                        onClick={() => toggleTab(4)}
                         eventKey="corporate"
                         className="nav-link-small font-weight-bold border "
                         style={{ borderRadius: "8px" }}
@@ -158,9 +174,9 @@ const Transactions = () => {
                     </Nav.Item>
                   </Nav>
 
-                  <Tab.Content>
+                  <Tab.Content activeTab={activeTab}>
 
-                    <Tab.Pane eventKey="portfolio">
+                    <Tab.Pane eventKey="portfolio" tabIndex={1}>
                       <div className="d-flex justify-end mt-2">
                         <a href={portFolioData.portfolio} target="_blank" download>
                           <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
@@ -174,7 +190,7 @@ const Transactions = () => {
                         </div>
                       </div>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="cashflow">
+                    <Tab.Pane eventKey="cashflow" tabIndex={2}>
                       <div className="d-flex justify-end mt-2">
                         <a href={portFolioData.cashflow} target="_blank" download>
                           <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
@@ -188,7 +204,7 @@ const Transactions = () => {
                         </div>
                       </div>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="market">
+                    <Tab.Pane eventKey="market" tabIndex={3}>
                       <div className="d-flex justify-end mt-2">
                         <a href={portFolioData.market} target="_blank" download>
                           <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
@@ -203,7 +219,7 @@ const Transactions = () => {
                         </div>
                       </div>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="corporate">
+                    <Tab.Pane eventKey="corporate" tabIndex={4}>
                       <div className="d-flex justify-end mt-2">
                         <a href={portFolioData.corporate} target="_blank" download>
                           <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
@@ -220,8 +236,8 @@ const Transactions = () => {
                     </Tab.Pane>
 
                     <div className="btn-group my-4 d-flex justify-center gap-3">
-                      <ButtonComponent cssClass='e-info' className="!capitalize" >Next</ButtonComponent>
-                      <ButtonComponent cssClass='e-info' className="!capitalize" >Previous</ButtonComponent>
+                      {activeTab > 1 ? <ButtonComponent cssClass='e-info' className="!capitalize" onClick={() => toggleTab(activeTab - 1)}>Previous</ButtonComponent> : null}
+                      {activeTab !== 4 ? <ButtonComponent cssClass='e-info' className="!capitalize" onClick={() => toggleTab(activeTab + 1)}>Next</ButtonComponent> : null}
                       <ButtonComponent cssClass='e-success' className="!capitalize" >Submit</ButtonComponent>
                     </div>
                   </Tab.Content>
