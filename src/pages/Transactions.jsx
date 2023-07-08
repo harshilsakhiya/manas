@@ -23,6 +23,7 @@ import { Header } from "../components";
 import { UploaderComponent } from "@syncfusion/ej2-react-inputs";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 import * as XLSX from 'xlsx';
+import UploadService from "../services/uploadService";
 
 const Transactions = () => {
   // const selectionsettings = { persistSelection: true };
@@ -35,6 +36,18 @@ const Transactions = () => {
   const [fileData, setFileData] = useState([])
 
   const allowedExtensions = '.csv, .xls, .xlsx';
+
+  const uploadData = async (data) => {
+    let response = null;
+
+    if (activeTab === 1) response = await UploadService.uploadPortFolioData(data)
+    else if (activeTab === 2) response = await UploadService.uploadCashflowData(data)
+    else if (activeTab === 3) response = await UploadService.uploadMarketData(data)
+    else if (activeTab === 4) response = await UploadService.uploadCorporateData(data)
+
+    return response
+
+  }
 
   const onFileSelected = (args) => {
     // args.filesData.splice(5);
@@ -58,7 +71,8 @@ const Transactions = () => {
             });
             return obj;
           });
-          setFileData(transformedData)
+
+          const res = uploadData(transformedData);
 
         });
       };
