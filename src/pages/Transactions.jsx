@@ -18,9 +18,10 @@ import '../App.css';
 //   Filter,
 // } from "@syncfusion/ej2-react-grids";
 
-import { customersData, customersGrid, existingPortFolio, newPortFolio } from "../data/dummy";
+import { customersData, customersGrid, existingPortFolio, newPortFolio, portFolioData } from "../data/dummy";
 import { Header } from "../components";
 import { UploaderComponent } from "@syncfusion/ej2-react-inputs";
+import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 
 const Transactions = () => {
   // const selectionsettings = { persistSelection: true };
@@ -31,6 +32,8 @@ const Transactions = () => {
   const [dropdown1Value, setDropdown1Value] = useState("");
   const [textboxValue, setTextboxValue] = useState("");
   const [dropdown2Value, setDropdown2Value] = useState("");
+  const [activeKey, setActiveKey] = useState("portfolio")
+  const [activeIndex, setActiveIndex] = useState(0)
 
   // useEffect(() => {
   //   updateSampleSection();
@@ -99,13 +102,7 @@ const Transactions = () => {
 
               </div>
 
-              <button
-                type="submit"
-                className="btn btn-primary btn-block w-100 bg-primary "
-                style={{ boxShadow: "0 3px 3px #737373", borderRadius: "8px" }}
-              >
-                Next
-              </button>
+              <ButtonComponent cssClass='e-info' className="!capitalize" type="submit" style={{ boxShadow: "0 3px 3px #737373" }}>Next</ButtonComponent>
             </form>
           </div>
 
@@ -121,7 +118,7 @@ const Transactions = () => {
           >
             <div className="row d-flex justify-center ">
               <div className="mt-4">
-                <Tab.Container defaultActiveKey="portfolio">
+                <Tab.Container defaultActiveKey={activeKey}>
                   <Nav variant="pills" className="d-flex justify-content-between">
                     <Nav.Item className="mr-2">
                       <Nav.Link
@@ -162,152 +159,80 @@ const Transactions = () => {
                   </Nav>
 
                   <Tab.Content>
-                    <Tab.Pane eventKey="portfolio" className="">
-                      {/* <h4 className="large my-4 "> Select Portfolio File</h4> */}
-                      <div className='control-pane' ref={dropContainerRef}>
-                        <div className='control-section col-lg-12 uploadpreview'>
+
+                    <Tab.Pane eventKey="portfolio">
+                      <div className="d-flex justify-end mt-2">
+                        <a href={portFolioData.portfolio} target="_blank" download>
+                          <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
+                        </a>
+                      </div>
+                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                        <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
                             <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
-
-                      <div className="btn-group my-4">
-                        <button
-                          type="button"
-                          className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Add Stock
-                        </button>
-                        <button
-                          type="button "
-                          className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          View Portfolio
-                        </button>
-                        <button
-                          type="button"
-                          className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Template.xls
-                        </button>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="cashflow">
+                      <div className="d-flex justify-end mt-2">
+                        <a href={portFolioData.cashflow} target="_blank" download>
+                          <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
+                        </a>
+                      </div>
+                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                        <div className='control-section col-lg-12 uploadpreview p-0 '>
+                          <div className='upload_wrapper'>
+                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                          </div>
+                        </div>
                       </div>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="cashflow" className="">
-
-                      <h4 className="large my-4 "> Select Cashflow File</h4>
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          className="custom-file-input border "
-                          id="customFile"
-                        />
+                    <Tab.Pane eventKey="market">
+                      <div className="d-flex justify-end mt-2">
+                        <a href={portFolioData.market} target="_blank" download>
+                          <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
+                        </a>
                       </div>
 
-                      <div className="btn-group my-4">
-                        <button
-                          type="button"
-                          className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Add Stock
-                        </button>
-                        <button
-                          type="button "
-                          className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          View Cashflow
-                        </button>
-                        <button
-                          type="button"
-                          className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Template.xls
-                        </button>
-                      </div>
-
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="market" className="">
-                      <h4 className="large my-4 "> Select Closing Price File</h4>
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          className="custom-file-input border "
-                          id="customFile"
-                        />
-                      </div>
-
-                      <div className="btn-group my-4">
-                        <button
-                          type="button"
-                          className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Add Closing File
-                        </button>
-                        <button
-                          type="button "
-                          className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          View Closing Price
-                        </button>
-                        <button
-                          type="button"
-                          className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Template.xls
-                        </button>
+                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                        <div className='control-section col-lg-12 uploadpreview p-0 '>
+                          <div className='upload_wrapper'>
+                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                          </div>
+                        </div>
                       </div>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="corporate" className="">
-                      <h4 className="large my-4 "> Select Corporate Action File</h4>
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          className="custom-file-input border "
-                          id="customFile"
-                        />
+                    <Tab.Pane eventKey="corporate">
+                      <div className="d-flex justify-end mt-2">
+                        <a href={portFolioData.corporate} target="_blank" download>
+                          <ButtonComponent cssClass='e-info' className="!capitalize" >Download</ButtonComponent>
+                        </a>
                       </div>
 
-                      <div className="btn-group my-4">
-                        <button
-                          type="button"
-                          className="small text-dark btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Add Corporate Action
-                        </button>
-                        <button
-                          type="button "
-                          className=" small text-dark btn btn-primary  mx-3"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          View Corporate Action
-                        </button>
-                        <button
-                          type="button"
-                          className="small text-dark  btn btn-primary"
-                          style={{ borderRadius: "8px" }}
-                        >
-                          Template.xls
-                        </button>
+                      <div className='control-pane mt-4' ref={dropContainerRef}>
+                        <div className='control-section col-lg-12 uploadpreview p-0 '>
+                          <div className='upload_wrapper'>
+                            <UploaderComponent id='validation' type='file' ref={uploadObj} selected={(args) => onFileSelected(args)} minFileSize={10000} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                          </div>
+                        </div>
                       </div>
                     </Tab.Pane>
+
+                    <div className="btn-group my-4 d-flex justify-center gap-3">
+                      <ButtonComponent cssClass='e-info' className="!capitalize" >Next</ButtonComponent>
+                      <ButtonComponent cssClass='e-info' className="!capitalize" >Previous</ButtonComponent>
+                      <ButtonComponent cssClass='e-success' className="!capitalize" >Submit</ButtonComponent>
+                    </div>
                   </Tab.Content>
                 </Tab.Container>
               </div>
             </div>
           </div>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 

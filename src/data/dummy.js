@@ -5761,3 +5761,14 @@ export const newPortFolio = [
   { name: "New Portfolio 2", id: "portfolio2" },
   { name: "New Portfolio 3", id: "portfolio3" },
 ];
+
+export const portFolioData = {
+  portfolio:
+    "https://drive.google.com/file/d/1Eujt5VLn7IIkhjHOfQ0eY9KrSi_tkM_Z/view",
+  cashflow:
+    "https://drive.google.com/file/d/1obwGIDOkrcMcCTgZE54pLCcAj03qMSGh/view?usp=sharing",
+  market:
+    "https://drive.google.com/file/d/1IccNRX7hySFXY9ThD0zxSJFfV5ARfNCZ/view?usp=sharing",
+  corporate:
+    "https://drive.google.com/file/d/1UqdruIgxiBGXXDj5SitJ4zyC7OCk4zsW/view?usp=sharing",
+};
