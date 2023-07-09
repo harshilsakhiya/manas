@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
@@ -34,10 +34,20 @@ const Transactions = () => {
   const [activeKey, setActiveKey] = useState("portfolio")
   const [activeTab, setActiveTab] = useState(1);
   const [fileData, setFileData] = useState([])
+  const [dropdownValue, setDropdownValue] = useState({
+    existingPortfolio: "",
+    newPortfolio: "",
+    deletePortfolio: ""
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
 
-  const allowedExtensions = '.csv, .xls, .xlsx';
 
-  const uploadData = async (data) => {
+  let uploaderRef = useRef(null);
+
+  const allowedExtensions = useMemo(() => '.csv, .xls, .xlsx', []);
+
+  const uploadData = useCallback(async (data) => {
     let response = null;
 
     if (activeTab === 1) response = await UploadService.uploadPortFolioData(data)
@@ -47,14 +57,22 @@ const Transactions = () => {
 
     return response
 
-  }
+  }, [])
 
-  const submitData = async () => {
+
+  const submitData = useCallback(async (args) => {
+    setError("")
+    setIsLoading(true)
     const res = await uploadData(fileData);
+    if (!res?.success) {
+      setError("Something went wrong, please try again!")
+    }
+    setIsLoading(false)
 
-  }
 
-  const onFileSelected = (args) => {
+  }, [fileData])
+
+  const onFileSelected = useCallback((args) => {
     // args.filesData.splice(5);
     const file = args.event.target.files[0];
 
@@ -95,13 +113,24 @@ const Transactions = () => {
     //   args.modifiedFilesData = args.filesData;
     // }
     args.isModified = true;
-  };
+  }, []);
 
-  const toggleTab = (tab) => {
+  const handleDropDownChange = useCallback((e) => {
+    const selectedValue = e.target.value;
+    const selectedName = e.target.name
+    // Do something with the selected value
+
+    setDropdownValue({
+      ...dropdownValue, [selectedName]: selectedValue
+    })
+  }, [dropdownValue])
+
+
+  const toggleTab = useCallback((tab) => {
     if (activeTab !== tab) {
       setActiveTab(tab);
     }
-  };
+  }, []);
 
   return (
     <div className="container">
@@ -123,16 +152,16 @@ const Transactions = () => {
               }}
             >
               <div className="form-group  mb-4 border">
-                <DropDownListComponent id="existing-portfolio" dataSource={existingPortFolio} fields={fields} placeholder="Select Existing Portfolio" />
+                <DropDownListComponent id="existing-portfolio" dataSource={existingPortFolio} fields={fields} name="existingPortfolio" placeholder="Select Existing Portfolio" onChange={handleDropDownChange} />
 
               </div>
 
               <div className="form-group mb-4">
-                <DropDownListComponent id="existing-portfolio" dataSource={newPortFolio} fields={fields} placeholder="Add New Portfolio" />
+                <DropDownListComponent id="new-portfolio" dataSource={newPortFolio} fields={fields} name="newPortfolio" placeholder="Add New Portfolio" onChange={handleDropDownChange} />
               </div>
 
               <div className="form-group mb-4 ">
-                <DropDownListComponent id="existing-portfolio" dataSource={newPortFolio} fields={fields} placeholder="Delete Selected Portfolio" />
+                <DropDownListComponent id="delete-portfolio" dataSource={newPortFolio} fields={fields} name="deletePortfolio" placeholder="Delete Selected Portfolio" onChange={handleDropDownChange} />
 
               </div>
 
@@ -150,6 +179,7 @@ const Transactions = () => {
             className="Container p-5 bg-light border border-dark rounded-2xl text-center mt-3 mb-5 w-9/12"
             style={{ boxShadow: "0 5px 5px  #737373" }}
           >
+            {error ? <div className="text-rose-700">{error}</div> : null}
             <div className="row d-flex justify-center w-full">
               <div className="mt-4 w-full">
                 <Tab.Container defaultActiveKey={activeKey}>
@@ -212,7 +242,7 @@ const Transactions = () => {
                       <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation' type='file' multiple={false} selected={(args) => onFileSelected(args)} autoUpload={true} allowedExtensions={allowedExtensions} ></UploaderComponent>
                           </div>
                         </div>
                       </div>
@@ -226,7 +256,7 @@ const Transactions = () => {
                       <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation-2' type='file' multiple={false} selected={(args) => onFileSelected(args)} autoUpload={true} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
@@ -241,7 +271,7 @@ const Transactions = () => {
                       <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation-3' type='file' multiple={false} selected={(args) => onFileSelected(args)} autoUpload={true} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
@@ -256,7 +286,7 @@ const Transactions = () => {
                       <div className='control-pane mt-4'>
                         <div className='control-section col-lg-12 uploadpreview p-0 '>
                           <div className='upload_wrapper'>
-                            <UploaderComponent id='validation' type='file' selected={(args) => onFileSelected(args)} autoUpload={false} allowedExtensions={allowedExtensions}></UploaderComponent>
+                            <UploaderComponent id='validation-4' type='file' multiple={false} selected={(args) => onFileSelected(args)} autoUpload={true} allowedExtensions={allowedExtensions}></UploaderComponent>
                           </div>
                         </div>
                       </div>
@@ -265,7 +295,7 @@ const Transactions = () => {
                     <div className="btn-group my-4 d-flex justify-center gap-3">
                       {activeTab > 1 ? <ButtonComponent cssClass='e-info' className="!capitalize" onClick={() => toggleTab(activeTab - 1)}>Previous</ButtonComponent> : null}
                       {activeTab !== 4 ? <ButtonComponent cssClass='e-info' className="!capitalize" onClick={() => toggleTab(activeTab + 1)}>Next</ButtonComponent> : null}
-                      <ButtonComponent cssClass='e-success' className="!capitalize" onClick={submitData} >Submit</ButtonComponent>
+                      <ButtonComponent cssClass='e-success' className="!capitalize" disabled={isLoading} onClick={submitData} >{isLoading ? "Loading..." : "Submit"}</ButtonComponent>
                     </div>
                   </Tab.Content>
                 </Tab.Container>
